@@ -17,6 +17,38 @@ client=MongoClient(os.environ['database'])
 db=client.
 users=db.users
 
+fishes={}
+world={
+    'grassland':{
+        'blocks': 100,    # Количество блоков на данном участке. Участки всегда квадратные. 100 блоков значит, что участок 10х10 блоков.
+        'depth': 10,      # Глубина.  1й блок - граница с воздухом, последний - дно.
+        'nearlocs':{      # Ближайшие локации. Т.к. участко это куб, локации могут быть справа, слева, спереди и сзади относительно текущего.
+            'right':None,
+            'left':None,
+            'up':None,
+            'down':'rockland'
+            
+        }
+        
+    },
+    
+    'rockland':{
+        'blocks': 100,    
+        'depth': 18,      
+        'nearlocs':{      
+            'right':None,
+            'left':None,
+            'up':'grassland',
+            'down':None
+            
+        }
+    }
+
+}
+
+
+# Один блок представляет из себя пространство 3х3 метров.
+
 
 try:
     pass
@@ -27,6 +59,15 @@ except Exception as e:
 
     
     
+    
+    
+    
+def life():
+    checktime=1
+    for ids in fishes:
+        fishes[ids].action()
+    t=threading.Timer(checktime, life)
+    t.start()
     
     
     
